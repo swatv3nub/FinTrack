@@ -216,7 +216,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '\$${spent.toStringAsFixed(2)} / \$${budget.amount.toStringAsFixed(2)}',
+                                '₹${spent.toStringAsFixed(2)} / ₹${budget.amount.toStringAsFixed(2)}',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: statusColor,

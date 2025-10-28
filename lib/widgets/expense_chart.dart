@@ -89,19 +89,26 @@ class ExpenseChart extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: expensesByCategory.entries.toList().asMap().entries.map((entry) {
-                final index = entry.key;
-                final mapEntry = entry.value;
-                return _buildLegendItem(
-                  mapEntry.key,
-                  mapEntry.value,
-                  colors[index % colors.length],
-                );
-              }).toList(),
+            const SizedBox(height: 24),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.grey.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Wrap(
+                spacing: 16,
+                runSpacing: 12,
+                children: expensesByCategory.entries.toList().asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final mapEntry = entry.value;
+                  return _buildLegendItem(
+                    mapEntry.key,
+                    mapEntry.value,
+                    colors[index % colors.length],
+                  );
+                }).toList(),
+              ),
             ),
           ],
         ),
@@ -114,17 +121,20 @@ class ExpenseChart extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 12,
-          height: 12,
+          width: 16,
+          height: 16,
           decoration: BoxDecoration(
             color: color,
             shape: BoxShape.circle,
           ),
         ),
-        const SizedBox(width: 4),
+        const SizedBox(width: 8),
         Text(
-          '$category: \$${amount.toStringAsFixed(2)}',
-          style: const TextStyle(fontSize: 12),
+          '$category: ₹${amount.toStringAsFixed(2)}',
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ],
     );

@@ -81,7 +81,7 @@ class TransactionListItem extends StatelessWidget {
                 ),
               ),
               Text(
-                '${isIncome ? '+' : '-'}\$${transaction.amount.toStringAsFixed(2)}',
+                '${isIncome ? '+' : '-'}₹${transaction.amount.toStringAsFixed(2)}',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
