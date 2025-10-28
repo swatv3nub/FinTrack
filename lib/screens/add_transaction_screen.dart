@@ -150,8 +150,15 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                             child: RadioListTile<TransactionType>(
                               title: const Text('Income'),
                               value: TransactionType.income,
-                              selected: _selectedType == TransactionType.income,
-                              toggleable: false,
+                              groupValue: _selectedType,
+                              onChanged: (value) {
+                                if (value != null) {
+                                  setState(() {
+                                    _selectedType = value;
+                                    _selectedCategory = _categories.first;
+                                  });
+                                }
+                              },
                               contentPadding: EdgeInsets.zero,
                             ),
                           ),
@@ -159,8 +166,15 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                             child: RadioListTile<TransactionType>(
                               title: const Text('Expense'),
                               value: TransactionType.expense,
-                              selected: _selectedType == TransactionType.expense,
-                              toggleable: false,
+                              groupValue: _selectedType,
+                              onChanged: (value) {
+                                if (value != null) {
+                                  setState(() {
+                                    _selectedType = value;
+                                    _selectedCategory = _categories.first;
+                                  });
+                                }
+                              },
                               contentPadding: EdgeInsets.zero,
                             ),
                           ),
