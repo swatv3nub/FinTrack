@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:csv/csv.dart';
-import 'package:path_provider/path_provider.dart';
 import '../models/transaction_model.dart';
 
 class CsvExportService {
@@ -25,11 +24,15 @@ class CsvExportService {
 
     String csv = const ListToCsvConverter().convert(rows);
 
-    final directory = await getApplicationDocumentsDirectory();
+    // Save directly to Downloads folder
+    const downloadsPath = '/storage/emulated/0/Download';
     final path =
-        '${directory.path}/fintrack_transactions_${DateTime.now().millisecondsSinceEpoch}.csv';
+        '$downloadsPath/fintrack_transactions_${DateTime.now().millisecondsSinceEpoch}.csv';
     final file = File(path);
 
+    // Create directory if it doesn't exist
+    await file.parent.create(recursive: true);
+    
     await file.writeAsString(csv);
     return file;
   }
