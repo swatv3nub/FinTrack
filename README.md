@@ -33,6 +33,10 @@ A cross-platform Flutter application for tracking personal expenses and budgets 
 - ✅ **Light/Dark Mode Toggle** - System-aware theme with manual toggle
 - ✅ **Smooth Animations** - Animated charts and transitions
 - ✅ **CSV Export** - Export transactions to CSV format
+  - Tap the download icon (📥) in the Transactions screen app bar
+  - File is saved to: `/storage/emulated/0/Android/data/com.fintrack.fintrack/files/`
+  - Includes all filtered transactions (All/Income/Expense)
+  - CSV columns: ID, Title, Amount, Date, Category, Type, Description
 - ✅ **Undo Delete** - Restore accidentally deleted transactions
 
 ## 🏗️ Architecture

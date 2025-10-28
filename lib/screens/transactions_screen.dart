@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/transaction_provider.dart';
 import '../models/transaction_model.dart';
 import '../widgets/transaction_list_item.dart';
+import '../services/csv_export_service.dart';
 import 'add_transaction_screen.dart';
 
 class TransactionsScreen extends StatefulWidget {
@@ -26,6 +27,37 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
       appBar: AppBar(
         title: const Text('Transactions'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.file_download),
+            tooltip: 'Export to CSV',
+            onPressed: transactions.isEmpty ? null : () async {
+              try {
+                final file = await CsvExportService.exportTransactionsToCsv(
+                  transactions,
+                );
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Exported to ${file.path}'),
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {},
+                      ),
+                    ),
+                  );
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Export failed: $e'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              }
+            },
+          ),
           PopupMenuButton<String>(
             initialValue: _selectedFilter,
             onSelected: (value) {
