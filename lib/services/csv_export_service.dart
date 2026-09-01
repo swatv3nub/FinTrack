@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:csv/csv.dart';
-import '../models/transaction_model.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:fintrack/domain/entities/transaction.dart';
 
 class CsvExportService {
-  static Future<File> exportTransactionsToCsv(
-    List<TransactionModel> transactions,
+  static Future<void> exportTransactionsToCsv(
+    List<Transaction> transactions,
   ) async {
     final List<List<dynamic>> rows = [
       ['ID', 'Title', 'Amount', 'Date', 'Category', 'Type', 'Description'],
@@ -14,7 +16,7 @@ class CsvExportService {
       rows.add([
         transaction.id,
         transaction.title,
-        transaction.amount,
+        transaction.amountInMajorUnits,
         transaction.date.toIso8601String(),
         transaction.category,
         transaction.type == TransactionType.income ? 'Income' : 'Expense',
@@ -24,16 +26,19 @@ class CsvExportService {
 
     String csv = const ListToCsvConverter().convert(rows);
 
-    // Save directly to Downloads folder
-    const downloadsPath = '/storage/emulated/0/Download';
-    final path =
-        '$downloadsPath/fintrack_transactions_${DateTime.now().millisecondsSinceEpoch}.csv';
-    final file = File(path);
-
-    // Create directory if it doesn't exist
-    await file.parent.create(recursive: true);
-    
+    // Get temporary directory and save file
+    final tempDir = await getTemporaryDirectory();
+    final fileName = 'fintrack_transactions_${DateTime.now().millisecondsSinceEpoch}.csv';
+    final file = File('${tempDir.path}/$fileName');
     await file.writeAsString(csv);
-    return file;
+
+    // Share the file using system share sheet (new API)
+    await SharePlus.instance.share(
+      ShareParams(
+        files: [XFile(file.path)],
+        text: 'FinTrack Transaction Export',
+        subject: 'Transaction Export',
+      ),
+    );
   }
 }
